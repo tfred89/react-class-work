@@ -8,11 +8,16 @@ export class Search extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.searchUsers(this.state.text);
-    this.setState({ text: "" });
+    if (this.state.text === '') {
+      this.props.setAlert('Please enter some words. Word.', 'light');
+    } else {
+      this.props.searchUsers(this.state.text);
+      this.setState({ text: "" });
+    }
   };
 
   render() {
+    const { showClear, clearUsers } = this.props;
     return (
       <div>
         <form onSubmit={this.onSubmit} className="form">
@@ -29,10 +34,10 @@ export class Search extends Component {
             className="btn btn-dark btn-block"
           />
         </form>
-        {this.props.showClear && (
+        {showClear && (
         <button
           className="btn btn-light btn-block"
-          onClick={this.props.clearUsers}
+          onClick={clearUsers}
         >
           Clear Users
         </button>
